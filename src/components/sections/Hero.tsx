@@ -62,12 +62,24 @@ export function Hero() {
           className="h-full w-full object-cover object-[center_30%]"
         />
         {/* Dark overlay */}
-        <div className="absolute inset-0 bg-[var(--color-bg)]/80" />
+        <div className="absolute inset-0" style={{ background: "rgba(5, 7, 12, 0.62)" }} />
         {/* Subtle blur via backdrop layer */}
         <div className="absolute inset-0 backdrop-blur-[2px]" />
         {/* Animated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg)] via-[var(--color-bg)]/60 to-[var(--color-bg)]/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-bg)] via-[var(--color-bg)]/30 to-transparent" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(5,7,12,1) 0%, rgba(5,7,12,0.55) 45%, rgba(5,7,12,0.15) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.35) 45%, rgba(5,7,12,0) 75%)",
+          }}
+        />
         <div
           className="absolute -left-40 top-10 h-[420px] w-[420px] rounded-full opacity-20 blur-[100px] animate-drift"
           style={{ background: "var(--color-accent)" }}
