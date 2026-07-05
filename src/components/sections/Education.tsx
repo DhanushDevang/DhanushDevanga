@@ -30,6 +30,9 @@ export function Education() {
                 {item.period}
               </p>
             )}
+            {item.note && (
+              <p className="mt-1 font-[var(--font-mono)] text-xs text-[var(--color-accent-2)]">{item.note}</p>
+            )}
           </motion.li>
         ))}
       </motion.ol>

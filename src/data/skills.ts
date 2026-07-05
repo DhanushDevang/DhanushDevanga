@@ -8,27 +8,42 @@ export const skillCategories: SkillCategory[] = [
   {
     id: "programming",
     label: "Programming",
-    skills: ["Java", "Python", "C", "JavaScript", "TypeScript"],
+    skills: ["Java", "Python", "SQL", "C"],
   },
   {
     id: "backend",
     label: "Backend",
-    skills: ["Node.js", "Express", "FastAPI", "REST APIs", "Supabase", "PostgreSQL", "Redis"],
+    skills: ["Spring Boot", "REST APIs", "JWT Authentication", "Maven", "Node.js", "Express"],
+  },
+  {
+    id: "databases",
+    label: "Databases",
+    skills: ["PostgreSQL", "MySQL", "SQL", "Database Design", "Normalization"],
+  },
+  {
+    id: "cloud",
+    label: "Cloud",
+    skills: ["AWS", "Elastic Beanstalk", "EC2", "S3", "IAM"],
   },
   {
     id: "frontend",
     label: "Frontend",
-    skills: ["React", "Next.js", "Tailwind CSS", "Vite"],
+    skills: ["React", "HTML", "CSS", "JavaScript", "TypeScript"],
   },
   {
     id: "ai",
-    label: "AI",
-    skills: ["OpenAI APIs", "LLMs", "Prompt Engineering", "Workflow Automation"],
+    label: "AI / ML",
+    skills: ["Scikit-Learn", "CNN", "NLP", "MATLAB", "OpenAI APIs", "LLM Integration"],
   },
   {
     id: "tools",
-    label: "Tools",
-    skills: ["Git", "GitHub", "Docker", "AWS", "Vercel", "Railway", "ThingSpeak"],
+    label: "Dev Tools",
+    skills: ["Git", "GitHub", "Docker", "GitHub Actions", "Postman"],
+  },
+  {
+    id: "core-cs",
+    label: "Core CS",
+    skills: ["Data Structures & Algorithms", "DBMS", "Operating Systems", "OOP", "Computer Networks"],
   },
   {
     id: "soft",

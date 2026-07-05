@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { StatusTag } from "@/components/ui/StatusTag";
 import { FaGithub, FaLinkedin, FaWhatsapp, FaEnvelope, FaInstagram } from "react-icons/fa";
 import { HeroStats } from "@/components/sections/HeroStats";
+import portraitUrl from "@/assets/portrait.jpg";
 
 const iconMap = {
   github: FaGithub,
@@ -53,33 +54,37 @@ export function Hero() {
       className="relative flex min-h-screen flex-col justify-center overflow-hidden pt-28 pb-16"
       aria-label="Introduction"
     >
-      {/* Ambient background */}
+      {/* Full-screen portrait wallpaper */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[var(--color-bg)]" />
+        <img
+          src={portraitUrl}
+          alt=""
+          className="h-full w-full object-cover object-[center_30%]"
+        />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-[var(--color-bg)]/80" />
+        {/* Subtle blur via backdrop layer */}
+        <div className="absolute inset-0 backdrop-blur-[2px]" />
+        {/* Animated gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg)] via-[var(--color-bg)]/60 to-[var(--color-bg)]/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-bg)] via-[var(--color-bg)]/30 to-transparent" />
         <div
-          className="absolute -left-40 top-10 h-[420px] w-[420px] rounded-full opacity-25 blur-[100px] animate-drift"
+          className="absolute -left-40 top-10 h-[420px] w-[420px] rounded-full opacity-20 blur-[100px] animate-drift"
           style={{ background: "var(--color-accent)" }}
         />
         <div
-          className="absolute -right-32 bottom-0 h-[380px] w-[380px] rounded-full opacity-20 blur-[100px] animate-drift-slow"
+          className="absolute -right-32 bottom-0 h-[380px] w-[380px] rounded-full opacity-15 blur-[100px] animate-drift-slow"
           style={{ background: "var(--color-accent-2)" }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "linear-gradient(var(--color-text) 1px, transparent 1px), linear-gradient(90deg, var(--color-text) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
         />
       </div>
 
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-16 px-6 lg:grid-cols-[1.1fr_0.9fr]">
-        {/* Left: content */}
+      <div className="mx-auto w-full max-w-6xl px-6">
+        {/* Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-2xl"
         >
           <StatusTag label="AVAILABLE FOR OPPORTUNITIES" />
 
@@ -137,39 +142,6 @@ export function Hero() {
                   </a>
                 );
               })}
-          </div>
-        </motion.div>
-
-        {/* Right: dashboard-style visual panel (portrait placeholder) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="glass relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl"
-          aria-hidden="true"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-accent)]/10 via-transparent to-[var(--color-accent-2)]/10" />
-          <div className="absolute inset-x-6 top-6 flex items-center justify-between font-[var(--font-mono)] text-[10px] text-[var(--color-text-faint)]">
-            <span>SYSTEM://dhanush-status</span>
-            <span className="text-[var(--color-online)]">● ONLINE</span>
-          </div>
-
-          <div className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[var(--color-accent)]/30" />
-          <div className="absolute left-1/2 top-1/2 h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[var(--color-accent)]/50 animate-pulse-ring" />
-          <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--color-accent)] shadow-[0_0_20px_4px_var(--color-accent)]" />
-
-          <div className="absolute inset-x-6 bottom-6 space-y-2 font-[var(--font-mono)] text-[10px] text-[var(--color-text-faint)]">
-            <div className="flex justify-between">
-              <span>uptime</span>
-              <span className="text-[var(--color-text-dim)]">3+ yrs building</span>
-            </div>
-            <div className="flex justify-between">
-              <span>focus</span>
-              <span className="text-[var(--color-text-dim)]">backend / AI systems</span>
-            </div>
-            <div className="h-1 w-full overflow-hidden rounded-full bg-[var(--color-surface-2)]">
-              <div className="h-full w-[85%] rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent-2)]" />
-            </div>
           </div>
         </motion.div>
       </div>

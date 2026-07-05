@@ -27,7 +27,14 @@ export function Achievements() {
                   <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
                     <FaAward size={16} />
                   </span>
-                  <p className="text-sm font-medium text-[var(--color-text)]">{a.title}</p>
+                  <div>
+                    <p className="text-sm font-medium text-[var(--color-text)]">{a.title}</p>
+                    {a.detail && (
+                      <p className="mt-1 font-[var(--font-mono)] text-xs text-[var(--color-text-faint)]">
+                        {a.detail}
+                      </p>
+                    )}
+                  </div>
                 </GlassCard>
               </motion.div>
             ))}
@@ -50,8 +57,11 @@ export function Achievements() {
                     <FaCertificate size={14} />
                   </span>
                   <div>
-                    <p className="text-sm font-medium text-[var(--color-text)]">{cert.issuer}</p>
-                    <p className="text-xs text-[var(--color-text-faint)]">{cert.title}</p>
+                    <p className="text-sm font-medium text-[var(--color-text)]">{cert.title}</p>
+                    <p className="text-xs text-[var(--color-text-faint)]">
+                      {cert.issuer}
+                      {cert.date ? ` · ${cert.date}` : ""}
+                    </p>
                   </div>
                 </GlassCard>
               </motion.div>

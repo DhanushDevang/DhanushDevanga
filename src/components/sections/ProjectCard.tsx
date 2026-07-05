@@ -14,7 +14,12 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       <GlassCard hover={!expanded} className="overflow-hidden">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <span className="eyebrow">{`0${project.order} · ${project.status.toUpperCase()}`}</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="eyebrow">{`0${project.order} · ${project.status.toUpperCase()}`}</span>
+              <span className="font-[var(--font-mono)] text-[11px] text-[var(--color-text-faint)]">
+                {project.period}
+              </span>
+            </div>
             <h3 className="mt-2 font-[var(--font-display)] text-xl font-semibold text-[var(--color-text)]">
               {project.title}
             </h3>

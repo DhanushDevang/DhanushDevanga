@@ -24,9 +24,11 @@ export function QuoteSection() {
         <blockquote className="relative font-[var(--font-display)] text-2xl font-medium leading-snug text-[var(--color-text)] sm:text-3xl">
           {quote.text}
         </blockquote>
-        <figcaption className="mt-6 font-[var(--font-mono)] text-sm text-[var(--color-accent-2)]">
-          — {quote.author}
-        </figcaption>
+        {quote.author && (
+          <figcaption className="mt-6 font-[var(--font-mono)] text-sm text-[var(--color-accent-2)]">
+            — {quote.author}
+          </figcaption>
+        )}
       </motion.div>
     </section>
   );
