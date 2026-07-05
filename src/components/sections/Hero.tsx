@@ -51,7 +51,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden pt-28 pb-16"
+      className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden pt-28 pb-16"
       aria-label="Introduction"
     >
       {/* Full-screen portrait wallpaper */}
@@ -90,7 +90,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="mx-auto w-full max-w-6xl px-6">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         {/* Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
