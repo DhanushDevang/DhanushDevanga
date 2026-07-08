@@ -12,5 +12,14 @@ export default defineConfig({
   },
   build: {
     sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks(id: string) {
+          if (id.includes('node_modules/three') || id.includes('node_modules/@react-three')) {
+            return 'three';
+          }
+        },
+      },
+    },
   },
 })
