@@ -18,6 +18,6 @@ export const education: EducationItem[] = [
     institution: "Dayananda Sagar University",
     degree: "B.Tech, Computer Science Engineering",
     period: "Jan 2022 – May 2026",
-    note: "6.25 GPA · 4th Year",
+    note: "6.6 GPA · 4th Year",
   },
 ];

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { portfolio } from "@/data/portfolio";
 import { socials } from "@/data/socials";
 import { Button } from "@/components/ui/Button";
 import { StatusTag } from "@/components/ui/StatusTag";
+import { ParticleField } from "@/components/ui/ParticleField";
 import { FaGithub, FaLinkedin, FaWhatsapp, FaEnvelope, FaInstagram } from "react-icons/fa";
 import { HeroStats } from "@/components/sections/HeroStats";
 import portraitUrl from "@/assets/portrait.jpg";
@@ -15,6 +16,37 @@ const iconMap = {
   email: FaEnvelope,
   instagram: FaInstagram,
 };
+
+function useParallax() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 55, damping: 18, mass: 0.6 });
+  const springY = useSpring(mouseY, { stiffness: 55, damping: 18, mass: 0.6 });
+  const imgX = useTransform(springX, [-0.5, 0.5], [16, -16]);
+  const imgY = useTransform(springY, [-0.5, 0.5], [12, -12]);
+  const contentX = useTransform(springX, [-0.5, 0.5], [-6, 6]);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    if (prefersReduced || isCoarsePointer) return;
+
+    function onMove(e: MouseEvent) {
+      const el = sectionRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+      mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+    }
+
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return { sectionRef, imgX, imgY, contentX };
+}
 
 function useTypedRoles(roles: readonly string[]) {
   const [index, setIndex] = useState(0);
@@ -47,18 +79,21 @@ function useTypedRoles(roles: readonly string[]) {
 
 export function Hero() {
   const typed = useTypedRoles(portfolio.roles);
+  const { sectionRef, imgX, imgY, contentX } = useParallax();
 
   return (
     <section
       id="hero"
+      ref={sectionRef}
       className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden pt-28 pb-16"
       aria-label="Introduction"
     >
       {/* Full-screen portrait wallpaper */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <img
+      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
+        <motion.img
           src={portraitUrl}
           alt=""
+          style={{ x: imgX, y: imgY, scale: 1.08 }}
           className="h-full w-full object-cover object-[center_30%]"
         />
         {/* Dark overlay */}
@@ -88,9 +123,11 @@ export function Hero() {
           className="absolute -right-32 bottom-0 h-[380px] w-[380px] rounded-full opacity-15 blur-[100px] animate-drift-slow"
           style={{ background: "var(--color-accent-2)" }}
         />
+        {/* Interactive particle network */}
+        <ParticleField />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
+      <motion.div style={{ x: contentX }} className="relative z-10 mx-auto w-full max-w-6xl px-6">
         {/* Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -156,7 +193,7 @@ export function Hero() {
               })}
           </div>
         </motion.div>
-      </div>
+      </motion.div>
 
       <motion.button
         onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
