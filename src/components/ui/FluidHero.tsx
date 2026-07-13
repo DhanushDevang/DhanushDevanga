@@ -1,16 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import type { ThreeEvent } from "@react-three/fiber";
-import { FluidScene } from "@/three/fluid/FluidScene";
-import { useFluidPointer } from "@/three/fluid/useFluidPointer";
+import { createFluidSim } from "@/three/fluid/pavelFluidSim";
 import { usePerformanceTier } from "@/three/fluid/usePerformanceTier";
 
 export function FluidHero() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [active, setActive] = useState(true);
-  const pausedRef = useRef(false);
-  const pointer = useFluidPointer(0.15);
-  const { simScale, dpr } = usePerformanceTier();
+  const { configOverride } = usePerformanceTier();
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -20,20 +15,36 @@ export function FluidHero() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  // Pause the render loop entirely when the tab isn't visible — avoids
-  // burning GPU/battery on a background tab.
   useEffect(() => {
+    if (reducedMotion) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    let sim: ReturnType<typeof createFluidSim> | null = null;
+    try {
+      sim = createFluidSim(canvas, configOverride);
+      // A small initial splash so first-time visitors see color right away,
+      // rather than a blank canvas until they move their cursor.
+      sim.addRandomSplats(2);
+    } catch {
+      // WebGL unavailable/blocked — fail silently, the scrim overlay behind
+      // this still leaves the hero looking intentional (plain dark bg).
+      return;
+    }
+
     function onVisibility() {
-      const hidden = document.hidden;
-      pausedRef.current = hidden;
-      setActive(!hidden);
+      sim?.setPaused(document.hidden);
     }
     document.addEventListener("visibilitychange", onVisibility);
-    return () => document.removeEventListener("visibilitychange", onVisibility);
-  }, []);
+
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      sim?.destroy();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reducedMotion]);
 
   if (reducedMotion) {
-    // Static, motion-free fallback: a soft gradient echoing the fluid's palette.
     return (
       <div
         aria-hidden="true"
@@ -46,28 +57,11 @@ export function FluidHero() {
     );
   }
 
-  function handlePointerMove(e: ThreeEvent<PointerEvent>) {
-    if (!e.uv) return;
-    pointer.setTarget(e.uv.x, e.uv.y);
-  }
-
   return (
-    <div aria-hidden="true" className="absolute inset-0">
-      <Canvas
-        orthographic
-        dpr={dpr}
-        frameloop={active ? "always" : "never"}
-        gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }}
-        style={{ pointerEvents: "auto" }}
-      >
-        <FluidScene
-          pointer={pointer}
-          simScale={simScale}
-          paused={pausedRef}
-          onPointerMove={handlePointerMove}
-          onPointerLeave={pointer.clear}
-        />
-      </Canvas>
-    </div>
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="absolute inset-0 h-full w-full"
+    />
   );
 }

@@ -118,7 +118,7 @@ export function Hero() {
         />
       </div>
 
-      <motion.div style={{ x: contentX }} className="relative z-10 mx-auto w-full max-w-6xl px-6">
+      <motion.div style={{ x: contentX }} className="relative z-10 mx-auto w-full max-w-6xl px-6 pointer-events-none">
         {/* Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -148,13 +148,14 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Button as="a" href={portfolio.resumeUrl} download>
+            <Button as="a" href={portfolio.resumeUrl} download className="pointer-events-auto">
               Download Resume
             </Button>
             <Button
               as="a"
               href="#contact"
               variant="secondary"
+              className="pointer-events-auto"
               onClick={(e) => {
                 e.preventDefault();
                 document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
@@ -176,7 +177,7 @@ export function Hero() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={s.label}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--color-border)] text-[var(--color-text-dim)] transition-colors hover:border-[var(--color-accent)]/50 hover:text-[var(--color-accent)]"
+                    className="pointer-events-auto flex h-10 w-10 items-center justify-center rounded-full border border-[var(--color-border)] text-[var(--color-text-dim)] transition-colors hover:border-[var(--color-accent)]/50 hover:text-[var(--color-accent)]"
                   >
                     <Icon size={16} />
                   </a>
@@ -188,7 +189,7 @@ export function Hero() {
 
       <motion.button
         onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[var(--color-text-faint)]"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[var(--color-text-faint)] pointer-events-auto"
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
         aria-label="Scroll to About section"
@@ -199,7 +200,7 @@ export function Hero() {
         </svg>
       </motion.button>
 
-      <div className="mx-auto mt-20 w-full max-w-6xl px-6">
+      <div className="pointer-events-none relative z-10 mx-auto mt-20 w-full max-w-6xl px-6">
         <HeroStats />
       </div>
     </section>
